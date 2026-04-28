@@ -1,136 +1,144 @@
-# 🏨 Hotel Reservation System — Sistema de Reservas de Hotel
+# Hotel Reservation System
 
 [![Java](https://img.shields.io/badge/Java-11-orange?logo=openjdk)](https://openjdk.org/)
 [![Maven](https://img.shields.io/badge/Maven-3.x-C71A36?logo=apachemaven)](https://maven.apache.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-A **Hotel Reservation Management System** built with Java Swing featuring a clean DAO architecture for managing clients, rooms, and reservations with MySQL persistence.
+## Overview
 
----
+A hotel reservation management system built with Java Swing featuring a clean layered architecture based on the Data Access Object (DAO) pattern. The application manages clients, rooms, and reservations with MySQL persistence, calendar-based date selection, and a tabbed panel interface.
 
-## 📸 Screenshots
-
-> _Screenshots coming soon — the application provides tabbed panels for client management, room inventory, and reservation booking with calendar date selection._
-
----
-
-## 🎯 Features
-
-| Feature | Description |
-|---------|-------------|
-| 👤 **Client Management** | Full CRUD for hotel clients |
-| 🛏️ **Room Management** | Room inventory with types and availability tracking |
-| 📅 **Reservation Booking** | Book, modify, and cancel reservations with JCalendar date picker |
-| 🔗 **Relational Model** | Clients ↔ Rooms ↔ Reservations with referential integrity |
-
----
-
-## 🏗️ Architecture
-
-This project implements a **clean layered architecture** with well-defined separation of concerns:
+## System Architecture
 
 ```
-┌──────────────────────┐
-│     UI Layer          │  ← Swing Panels (MainFrame, ClientesPanel, etc.)
-│  (Presentation)       │
-├──────────────────────┤
-│     DAO Layer         │  ← Data Access Objects (ClienteDAO, HabitacionDAO, etc.)
-│  (Data Access)        │
-├──────────────────────┤
-│    Model Layer        │  ← POJOs (Cliente, Habitacion, Reserva)
-│  (Domain)             │
-├──────────────────────┤
-│     DB Layer          │  ← ConexionDB (MySQL Connector)
-│  (Infrastructure)     │
-└──────────────────────┘
+Presentation Layer    UI panels: MainFrame, ClientesPanel, HabitacionesPanel, ReservasPanel
+Data Access Layer     DAO classes: ClienteDAO, HabitacionDAO, ReservaDAO
+Domain Layer          Models: Cliente, Habitacion, Reserva
+Infrastructure        ConexionDB: MySQL connection management
 ```
 
 ### Design Patterns
-- **DAO (Data Access Object)** — Abstracts database operations per entity
-- **Layered Architecture** — Clear separation: `model` → `dao` → `db` → `ui`
-- **Singleton** — Single database connection instance
 
----
+| Pattern | Implementation | Purpose |
+|---------|---------------|---------|
+| **DAO** | `ClienteDAO`, `HabitacionDAO`, `ReservaDAO` | Database operation abstraction per entity |
+| **Layered Architecture** | `model/` -> `dao/` -> `db/` -> `ui/` | Clear separation of concerns |
+| **Singleton** | `ConexionDB` | Single database connection instance |
 
-## 🛠️ Tech Stack
+## Functional Modules
 
-| Layer | Technology |
-|-------|-----------|
-| **Language** | Java 11 |
-| **Build** | Maven |
-| **GUI** | Swing |
-| **Date Picker** | JCalendar 1.4 |
-| **Database** | MySQL 8.0 |
-| **Connector** | mysql-connector-j 8.0.33 |
+| Module | Description |
+|--------|-------------|
+| **Client Management** | Full CRUD for hotel clients |
+| **Room Management** | Room inventory with types and availability |
+| **Reservation Booking** | Booking with JCalendar date selection, modification, cancellation |
 
----
+## Technology Stack
 
-## 📁 Project Structure
+| Component | Technology |
+|-----------|-----------|
+| Language | Java 11 |
+| Build | Maven 3.x |
+| GUI | Swing |
+| Date Selection | JCalendar 1.4 |
+| Database | MySQL 8.0 |
+| JDBC | mysql-connector-j 8.0.33 |
+
+## Project Structure
 
 ```
 hotel-reservation-system/
-├── pom.xml
-└── src/main/java/com/reservas/
-    ├── dao/                        # Data Access Objects
-    │   ├── ClienteDAO.java         # Client database operations
-    │   ├── HabitacionDAO.java      # Room database operations
-    │   └── ReservaDAO.java         # Reservation database operations
-    ├── db/                         # Database Infrastructure
-    │   └── ConexionDB.java         # MySQL connection manager
-    ├── model/                      # Domain Models
-    │   ├── Cliente.java            # Client entity
-    │   ├── Habitacion.java         # Room entity
-    │   └── Reserva.java            # Reservation entity
-    └── ui/                         # User Interface
-        ├── MainFrame.java          # Main application window (JTabbedPane)
-        ├── ClientesPanel.java      # Client management panel
-        ├── HabitacionesPanel.java  # Room management panel
-        └── ReservasPanel.java      # Reservation booking panel
+    pom.xml
+    src/main/java/com/reservas/
+        dao/
+            ClienteDAO.java
+            HabitacionDAO.java
+            ReservaDAO.java
+        db/
+            ConexionDB.java
+        model/
+            Cliente.java
+            Habitacion.java
+            Reserva.java
+        ui/
+            MainFrame.java
+            ClientesPanel.java
+            HabitacionesPanel.java
+            ReservasPanel.java
 ```
 
----
-
-## 🚀 Getting Started
+## Installation
 
 ### Prerequisites
-- Java 11+ (JDK)
-- Maven 3.x
-- MySQL 8.0
+- JDK 11+, Maven 3.x, MySQL 8.0
 
-### 1. Set up the Database
-```sql
-CREATE DATABASE reservas_hotel;
-USE reservas_hotel;
-
--- Create tables (schema coming soon)
-```
-
-### 2. Configure Database Connection
-Update `ConexionDB.java` with your MySQL credentials.
-
-### 3. Build & Run
 ```bash
 mvn clean compile exec:java -Dexec.mainClass="com.reservas.ui.MainFrame"
 ```
 
----
+## Roadmap
 
-## 🔮 Roadmap
-
-- [ ] Create database schema SQL file
-- [ ] Web version with React frontend + Node.js API
+- [ ] Database schema SQL file
+- [ ] Service layer between DAO and UI
+- [ ] Web frontend (React) with Node.js REST API
 - [ ] Docker containerization
-- [ ] Add Service layer between DAO and UI
-- [ ] Unit tests (JUnit)
-- [ ] REST API documentation
+- [ ] Unit tests (JUnit 5)
 
----
+## License
 
-## 📄 License
-
-This project is licensed under the MIT License — see [LICENSE](./LICENSE) for details.
-
----
+MIT License. See [LICENSE](./LICENSE).
 
 **Developed by [Leonardo Diaz](https://github.com/LeoDiaz-DataSc)**
+
+---
+
+# Version en Espanol
+
+## Descripcion General
+
+Sistema de gestion de reservas hoteleras construido con Java Swing con una arquitectura limpia por capas basada en el patron Data Access Object (DAO). La aplicacion gestiona clientes, habitaciones y reservas con persistencia MySQL, seleccion de fechas mediante calendario y una interfaz con paneles tabulados.
+
+## Arquitectura del Sistema
+
+```
+Capa de Presentacion     Paneles UI: MainFrame, ClientesPanel, HabitacionesPanel, ReservasPanel
+Capa de Acceso a Datos   Clases DAO: ClienteDAO, HabitacionDAO, ReservaDAO
+Capa de Dominio          Modelos: Cliente, Habitacion, Reserva
+Infraestructura          ConexionDB: Gestion de conexion MySQL
+```
+
+### Patrones de Diseno
+
+| Patron | Implementacion | Proposito |
+|--------|---------------|-----------|
+| **DAO** | `ClienteDAO`, `HabitacionDAO`, `ReservaDAO` | Abstraccion de operaciones de BD por entidad |
+| **Arquitectura por Capas** | `model/` -> `dao/` -> `db/` -> `ui/` | Separacion clara de responsabilidades |
+| **Singleton** | `ConexionDB` | Instancia unica de conexion |
+
+## Modulos Funcionales
+
+| Modulo | Descripcion |
+|--------|-------------|
+| **Gestion de Clientes** | CRUD completo para clientes del hotel |
+| **Gestion de Habitaciones** | Inventario de habitaciones con tipos y disponibilidad |
+| **Reservaciones** | Reservas con seleccion de fechas JCalendar, modificacion y cancelacion |
+
+## Instalacion
+
+### Requisitos Previos
+- JDK 11+, Maven 3.x, MySQL 8.0
+
+```bash
+mvn clean compile exec:java -Dexec.mainClass="com.reservas.ui.MainFrame"
+```
+
+## Hoja de Ruta
+
+- [ ] Archivo SQL de esquema de base de datos
+- [ ] Capa de servicio entre DAO y UI
+- [ ] Frontend web (React) con API REST Node.js
+- [ ] Contenedorizacion con Docker
+- [ ] Pruebas unitarias (JUnit 5)
+
+**Desarrollado por [Leonardo Diaz](https://github.com/LeoDiaz-DataSc)**
