@@ -89,7 +89,7 @@ mvn clean compile exec:java -Dexec.mainClass="com.reservas.ui.MainFrame"
 
 MIT License. See [LICENSE](./LICENSE).
 
-**Developed by [Leonardo Diaz](https://github.com/LeoDiaz-DataSc)**
+**Developed by [Diego Leobardo Diaz Hernandez](https://github.com/LeoDiaz-DataSc)**
 
 ---
 
@@ -141,4 +141,4 @@ mvn clean compile exec:java -Dexec.mainClass="com.reservas.ui.MainFrame"
 - [ ] Contenedorizacion con Docker
 - [ ] Pruebas unitarias (JUnit 5)
 
-**Desarrollado por [Leonardo Diaz](https://github.com/LeoDiaz-DataSc)**
+**Desarrollado por [Diego Leobardo Diaz Hernandez](https://github.com/LeoDiaz-DataSc)**
