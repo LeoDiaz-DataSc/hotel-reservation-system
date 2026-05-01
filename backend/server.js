@@ -9,9 +9,13 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/clientes', require('./routes/clientes'));
 app.use('/api/habitaciones', require('./routes/habitaciones'));
 app.use('/api/reservas', require('./routes/reservas'));
+app.use('/api/cargos', require('./routes/cargos'));
+app.use('/api/pagos', require('./routes/pagos'));
+app.use('/api/housekeeping', require('./routes/housekeeping'));
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Reservas API is running' });
