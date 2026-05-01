@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: reservas_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reservas
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+
+  backend:
+    build: 
+      context: ./backend
+    container_name: reservas_backend
+    ports:
+      - "3002:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=reservas
+      - PORT=3000
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: reservas_frontend
+    ports:
+      - "5175:80"
+    environment:
+      - VITE_API_URL=http://localhost:3002/api
+    depends_on:
+      - backend
