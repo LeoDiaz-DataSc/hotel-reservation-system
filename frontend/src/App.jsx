@@ -1,10 +1,22 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import './index.css';
 
+gsap.registerPlugin(useGSAP);
+
 function Housekeeping() {
+  const container = useRef();
+  
+  useGSAP(() => {
+    gsap.from('.page-title, .page-subtitle', { y: -30, opacity: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+    gsap.from('.card', { scale: 0.95, opacity: 0, duration: 0.6, delay: 0.3, ease: 'back.out(1.7)' });
+  }, { scope: container });
+
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" ref={container}>
       <h1 className="page-title">Housekeeping (Limpieza)</h1>
       <p className="page-subtitle">Gestión de estados de habitación</p>
       <div className="card">
@@ -18,8 +30,15 @@ function Housekeeping() {
 }
 
 function POS() {
+  const container = useRef();
+  
+  useGSAP(() => {
+    gsap.from('.page-title, .page-subtitle', { y: -30, opacity: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out' });
+    gsap.from('.card', { scale: 0.95, opacity: 0, duration: 0.6, delay: 0.3, ease: 'back.out(1.7)' });
+  }, { scope: container });
+
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" ref={container}>
       <h1 className="page-title">Punto de Venta Interno</h1>
       <p className="page-subtitle">Cargos extra a la habitación</p>
       <div className="card">

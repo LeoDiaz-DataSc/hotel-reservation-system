@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
+const { verifyToken } = require('../middleware/auth');
+const logAction = require('../middleware/audit');
+
+// Protegemos todas las rutas
+router.use(verifyToken);
 
 router.get('/', async (req, res, next) => {
     try {
@@ -45,8 +50,8 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// Advanced Check-out Transaction
-router.post('/:id/checkout', async (req, res, next) => {
+// Endpoint Transaccional: Check-out
+router.post('/:id/checkout', logAction('CHECKOUT_RESERVA'), async (req, res, next) => {
     const connection = await db.getConnection();
     try {
         await connection.beginTransaction();
