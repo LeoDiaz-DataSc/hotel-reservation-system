@@ -3,34 +3,38 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: reservas_db
+    container_name: hotel_enterprise_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: reservas
+      MYSQL_DATABASE: hotel_enterprise
     ports:
       - "3308:3306"
     volumes:
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./database/schema_part2.sql:/docker-entrypoint-initdb.d/02_schema_part2.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/03_seed.sql
+      - ./database/seed_part2.sql:/docker-entrypoint-initdb.d/04_seed_part2.sql
 
   backend:
     build: 
       context: ./backend
-    container_name: reservas_backend
+    container_name: hotel_enterprise_backend
     ports:
       - "3002:3000"
     environment:
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=reservas
+      - DB_NAME=hotel_enterprise
       - PORT=3000
+      - JWT_SECRET=hotel_enterprise_jwt_secret_2026
     depends_on:
       - db
 
   frontend:
     build:
       context: ./frontend
-    container_name: reservas_frontend
+    container_name: hotel_enterprise_frontend
     ports:
       - "5175:80"
     environment:

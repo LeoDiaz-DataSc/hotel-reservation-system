@@ -1,41 +1,37 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * Verifica JWT en el header Authorization: Bearer <token>
+ */
 const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    
-    if (!token) {
-        return res.status(403).json({ success: false, message: 'Un token de acceso es requerido' });
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(403).json({ success: false, message: 'Token de acceso requerido' });
     }
-
     try {
-        const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+        const token = authHeader.replace('Bearer ', '');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
     } catch (err) {
         return res.status(401).json({ success: false, message: 'Token inválido o expirado' });
     }
-    
     return next();
 };
 
-const checkPermission = (requiredPermission) => {
-    return async (req, res, next) => {
-        const db = require('../config/database');
-        try {
-            const [permisos] = await db.query(`
-                SELECT p.Nombre_Permiso 
-                FROM Permisos p
-                JOIN Rol_Permisos rp ON p.ID_Permiso = rp.ID_Permiso
-                WHERE rp.ID_Rol = ? AND p.Nombre_Permiso = ?
-            `, [req.user.rolId, requiredPermission]);
-
-            if (permisos.length === 0) {
-                return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
-            }
-            next();
-        } catch (error) {
-            next(error);
+/**
+ * Verifica que el usuario tenga uno de los roles permitidos
+ * Uso: checkRole('Admin', 'Supervisor')
+ */
+const checkRole = (...rolesPermitidos) => {
+    return (req, res, next) => {
+        if (!req.user || !rolesPermitidos.includes(req.user.rol)) {
+            return res.status(403).json({ 
+                success: false, 
+                message: `Acceso denegado. Roles requeridos: ${rolesPermitidos.join(', ')}` 
+            });
         }
+        next();
     };
 };
 
-module.exports = { verifyToken, checkPermission };
+module.exports = { verifyToken, checkRole };
