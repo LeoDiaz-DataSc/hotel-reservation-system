@@ -321,7 +321,7 @@ Ver [SECURITY.md](SECURITY.md) para detalles completos.
 
 ## 👨‍💻 Autor
 
-**Leonardo Díaz** — Senior Data Scientist & Full-Stack Developer  
+**Diego Leobardo Diaz Hernandez** — Senior Data Scientist & Full-Stack Developer  
 GitHub: [@LeoDiaz-DataSc](https://github.com/LeoDiaz-DataSc)
 
 ---
